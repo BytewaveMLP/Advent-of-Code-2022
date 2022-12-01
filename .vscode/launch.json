@@ -5,6 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Run",
+      "type": "rdbg",
+      "request": "launch",
+      "script": "${file}",
+      "args": [
+        "${fileDirname}/input.txt"
+      ]
+    },
+    {
       "name": "Debug",
       "type": "rdbg",
       "request": "launch",
