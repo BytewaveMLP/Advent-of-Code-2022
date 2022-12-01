@@ -5,21 +5,12 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run with Input",
-      "type": "Ruby",
-      "request": "launch",
-      "program": "${file}",
-      "args": [
-        "input.txt"
-      ]
-    },
-    {
-      "name": "Debug Local File",
+      "name": "Debug",
       "type": "rdbg",
       "request": "launch",
       "script": "${file}",
       "args": [
-        "test-input.txt"
+        "${fileDirname}/test-input.txt"
       ]
     }
   ]
