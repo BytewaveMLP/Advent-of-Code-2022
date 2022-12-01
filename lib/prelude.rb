@@ -13,4 +13,4 @@ if ARGV[0].blank?
   exit 1
 end
 
-$input = File.open(ARGV[0]).readlines.map(&:chomp)
+$input = File.open(ARGV[0]).readlines.map(&:chomp).compact_blank
