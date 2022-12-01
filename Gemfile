@@ -9,3 +9,4 @@ group :development do
 end
 
 gem 'amazing_print'
+gem 'activesupport'
