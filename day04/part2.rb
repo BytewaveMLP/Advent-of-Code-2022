@@ -5,10 +5,10 @@ require_relative '../lib/prelude'
 puts($input.map do |line|
   assignments = line.split(',').map do |assignment|
     first, last = assignment.split('-').map(&:to_i)
-    Set.new(first..last)
+    (first..last)
   end
 
-  if assignments.reduce(:&).size.positive?
+  if assignments[0].overlaps?(assignments[1])
     1
   else
     0
