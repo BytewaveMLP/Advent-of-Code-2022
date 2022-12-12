@@ -10,3 +10,5 @@ end
 
 gem 'amazing_print'
 gem 'activesupport'
+
+gem "ruby-progressbar", "~> 1.11"

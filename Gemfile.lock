@@ -79,6 +79,7 @@ DEPENDENCIES
   amazing_print
   debug
   rubocop
+  ruby-progressbar (~> 1.11)
   solargraph
 
 BUNDLED WITH
