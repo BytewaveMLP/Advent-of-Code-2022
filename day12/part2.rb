@@ -54,7 +54,7 @@ end
 $graph = Graph.new
 
 start_nodes = Set.new
-end_nodes = Set.new
+end_node = nil
 
 $input.each_with_index do |line, y|
   line.each_char.with_index do |char, x|
@@ -62,27 +62,27 @@ $input.each_with_index do |line, y|
     node = GraphNode.new(x, y, height)
     $graph.add_node(node)
 
-    start_nodes << node if height == 0
-    end_nodes << node if height == 25
+    start_nodes << node if height.zero?
+    end_node = node if char == 'E'
 
     unless (y - 1).negative?
       adjacent_node = $graph.nodes[y - 1][x]
 
-      node.add_adjacent(adjacent_node) if adjacent_node.height - node.height <= 1
-      adjacent_node.add_adjacent(node) if node.height - adjacent_node.height <= 1
+      adjacent_node.add_adjacent(node) if adjacent_node.height - node.height <= 1
+      node.add_adjacent(adjacent_node) if node.height - adjacent_node.height <= 1
     end
 
     unless (x - 1).negative?
       adjacent_node = $graph.nodes[y][x - 1]
 
-      node.add_adjacent(adjacent_node) if adjacent_node.height - node.height <= 1
-      adjacent_node.add_adjacent(node) if node.height - adjacent_node.height <= 1
+      adjacent_node.add_adjacent(node) if adjacent_node.height - node.height <= 1
+      node.add_adjacent(adjacent_node) if node.height - adjacent_node.height <= 1
     end
   end
 end
 
 def shortest_path_length(start_node, end_nodes)
-  distances = Hash.new { 350 } # informed from previous part, min distance from old start
+  distances = Hash.new { Float::INFINITY }
   distances[start_node] = 0
   previous = {}
   nodes = Set.new($graph.nodes.flatten)
@@ -101,22 +101,24 @@ def shortest_path_length(start_node, end_nodes)
     end
   end
 
-  end_nodes.map { |end_node| distances[end_node] + 1 }
+  end_nodes.each do |end_node|
+    puts "Start: #{end_node.x}, #{end_node.y}, #{end_node.height}"
+
+    current = end_node
+    length = 0
+    while current
+      puts "  Next: #{current.x}, #{current.y}, #{current.height}"
+      current = previous[current]
+      length += 1
+    end
+    puts "  Steps: #{length - 1}"
+  end
+
+  end_nodes.map { |end_node| distances[end_node] }
 end
 
-end_nodes.each do |end_node|
-  puts "End: #{end_node.x}, #{end_node.y}, #{end_node.height}"
-end
+puts "Start nodes length: #{start_nodes.size}"
 
-progress_bar = ProgressBar.create(title: 'Nodes', total: start_nodes.size, format: '%t: |%W| %a (%E)')
-
-min_length = Float::INFINITY
-start_nodes.each do |start_node|
-  path_lengths = shortest_path_length(start_node, end_nodes)
-  next unless path_lengths.any?
-
-  min_length = [min_length, path_lengths.min].min
-
-  progress_bar.increment
-end
+path_lengths = shortest_path_length(end_node, start_nodes)
+min_length = path_lengths.min
 puts(min_length)
