@@ -13,28 +13,25 @@ def compare(left, right)
   case [left.class, right.class]
   when [Array, Array]
     size_diff = right.size - left.size
-    left += ([nil] * size_diff) if size_diff > 0
+    left += ([nil] * size_diff) if size_diff.positive?
 
     left.zip(right).each do |left_el, right_el|
-      return true if left_el.nil?
-      return false if right_el.nil?
+      return -1 if left_el.nil?
+      return 1 if right_el.nil?
 
       comparison = compare(left_el, right_el)
-      next if comparison.nil?
+      next if comparison.zero?
 
       return comparison
     end
 
-    nil
+    0
   when [Integer, Array]
     compare([left], right)
   when [Array, Integer]
     compare(left, [right])
   when [Integer, Integer]
-    return true if left < right
-    return false if left > right
-
-    nil
+    left <=> right
   end
 end
 
@@ -52,13 +49,7 @@ packets += DIVIDER_PACKETS
 
 decoder_key = 1
 
-pp(packets.sort do |a, b|
-  comparison = compare(a, b)
-  next -1 if comparison
-  next 1 unless comparison
-
-  0
-end).each_with_index do |packet, i|
+pp(packets.sort(&method(:compare))).each_with_index do |packet, i|
   decoder_key *= pp(i + 1) if packet.in?(DIVIDER_PACKETS)
 end
 
