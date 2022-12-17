@@ -12,3 +12,5 @@ gem 'amazing_print'
 gem 'activesupport'
 
 gem "ruby-progressbar", "~> 1.11"
+
+gem "matrix", "~> 0.4.2"

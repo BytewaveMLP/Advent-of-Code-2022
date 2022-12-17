@@ -56,4 +56,4 @@ build-iPhoneSimulator/
 # .rubocop-https?--*
 
 day*/input.txt
-day*/*-output.txt
+day*/*output.txt
